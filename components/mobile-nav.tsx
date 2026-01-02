@@ -26,7 +26,7 @@ const MobileNav = () => {
             className="cursor-pointer"
           />
         </SheetTrigger>
-        <SheetContent side="left" className="border-none">
+        <SheetContent side="left" className="border-none bg-[#1C1F2E]">
           <Link href="/" className="flex items-center gap-1">
             <Image
               src="/icons/logo.svg"
@@ -35,7 +35,7 @@ const MobileNav = () => {
               height={32}
               className="max-sm:size-10"
             />
-            <p className="text-[26px] font-extrabold text-white max-sm:hidden">
+            <p className="text-[26px] font-extrabold text-white ">
               Zoom
             </p>
           </Link>
@@ -44,7 +44,7 @@ const MobileNav = () => {
               <section className="flex h-full flex-col gap-6 pt-16 text-white">
                 {SideBarData.map((item) => {
                   const isActive =
-                    path === item.route || path.startsWith(item.route);
+                    path === item.route
 
                   return (
                     <SheetClose asChild key={item.route}>
@@ -54,7 +54,7 @@ const MobileNav = () => {
                         className={cn(
                           "flex gap-4 items-center p-4 rounded-lg w-full max-w-60",
                           {
-                            "bg-blue-1": isActive,
+                            "bg-[#0E78F9]": isActive,
                           }
                         )}
                       >
