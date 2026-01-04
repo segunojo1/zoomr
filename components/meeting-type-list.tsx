@@ -26,7 +26,6 @@ const MeetingTypeList = () => {
 
   const createMeeting = async () => {
     if (!user || !client) return;
-    console.log(user, client);
 
     try {
       if (!values.dateTime) {
@@ -45,24 +44,21 @@ const MeetingTypeList = () => {
       const description = values.description || "Instant meeting";
       console.log("call3", id);
 
-      try {
-        await call.getOrCreate({
-          data: {
-            starts_at: startsAt,
-            custom: { description },
+      await call.getOrCreate({
+        data: {
+          starts_at: startsAt,
+          custom: {
+            description,
           },
-        });
-      } catch (err) {
-        console.error("Stream error:", err);
-        throw err;
-      }
+        },
+      });
       console.log("call4");
 
       setCallDetails(call);
 
-      if (!values.description) {
-        router.push(`/meeting/${call.id}`);
-      }
+      router.push(`/meeting/${call.id}`);
+      // if (!values.description) {
+      // }
       toast("Meeting created");
       console.log("call5");
     } catch (error) {
