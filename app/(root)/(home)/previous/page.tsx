@@ -1,8 +1,13 @@
+import CallList from '@/components/CallList'
 import React from 'react'
 
 const Previous = () => {
   return (
-    <div>Previous</div>
+    <div>
+      <h1>Previous</h1>
+
+      <CallList type='ended' />
+    </div>
   )
 }
 
