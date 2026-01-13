@@ -15,11 +15,11 @@ const Table = ({ title, description }: { title: string; description: string }) =
 );
 
 const PersonalRoom = () => {
-  const user = useUser();
-  const meetingId = user?.id;
+  const {user} = useUser();
   const client = useStreamVideoClient();
   const router = useRouter();
-
+  const meetingId = user?.id;
+  
     const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${meetingId}?personal=true`;
 
     const {call} = useGetCallById(meetingId!);
