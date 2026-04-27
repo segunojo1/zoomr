@@ -1,11 +1,13 @@
 import { useCall, useCallStateHooks } from '@stream-io/video-react-sdk'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const EndCallButton = () => {
     const call = useCall();
     const router = useRouter();
+  const [isEnding, setIsEnding] = useState(false);
 
     const { useLocalParticipant } = useCallStateHooks();
     const localParticipant = useLocalParticipant();
@@ -15,9 +17,17 @@ const EndCallButton = () => {
     if (!isMeetingHost) return null
 
   return (
-    <Button onClick={async () => {
-        await call.endCall()
-        router.push('/')
+    <Button disabled={isEnding} onClick={async () => {
+      try {
+        setIsEnding(true);
+        await call.endCall();
+      } catch (error) {
+        console.error(error);
+        toast('Could not end the call cleanly. Returning home.');
+      } finally {
+        router.push('/');
+        setIsEnding(false);
+      }
     }} className='bg-red-500 '>
         End call for everyone
     </Button>

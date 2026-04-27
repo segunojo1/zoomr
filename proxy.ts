@@ -4,7 +4,8 @@ const isProtectedRoute = createRouteMatcher(['/',
     '/upcoming', 
     '/previous', 
     '/recordings', 
-    '/personal-room'])
+  '/personal-room',
+  '/meeting(.*)'])
 
 export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) await auth.protect()

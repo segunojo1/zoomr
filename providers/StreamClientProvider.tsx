@@ -13,7 +13,10 @@ const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
   const { user, isLoaded } = useUser();
 
   useEffect(() => {
-    if (!isLoaded || !user) return;
+    if (!isLoaded || !user) {
+      setVideoClient(undefined);
+      return;
+    }
     if (!API_KEY) throw new Error('Stream API key is missing');
 
     const client = new StreamVideoClient({
@@ -28,6 +31,10 @@ const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
 
     setVideoClient(client);
   }, [user, isLoaded]);
+
+  if (!isLoaded) return <h1 className='text-white font-bold text-3xl'>Loader...</h1>;
+
+  if (!user) return <>{children}</>;
 
   if (!videoClient) return <h1 className='text-white font-bold text-3xl'>Loader...</h1>;
 

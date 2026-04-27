@@ -2,14 +2,16 @@
 import { DeviceSettings, useCall, VideoPreview } from '@stream-io/video-react-sdk'
 import { useEffect, useState } from 'react'
 import { Button } from './ui/button';
+import { toast } from 'sonner';
 
 const MeetingSetup = ({setIsSetupComplete}: {setIsSetupComplete: (value: boolean) => void}) => {
     const [isMicCamToggledOn, setIsMicCamToggledOn] = useState(false);
+    const [isJoining, setIsJoining] = useState(false);
 
     const call = useCall();
 
     if (!call) {
-        throw new Error('usecall must be used within a StreamCall component');
+        return <div className='flex h-screen w-full items-center justify-center text-white'>Loading...</div>;
     }
 
     useEffect(() => {
@@ -32,9 +34,17 @@ const MeetingSetup = ({setIsSetupComplete}: {setIsSetupComplete: (value: boolean
                 Join with mic and camera off
             </label>
             <DeviceSettings />
-            <Button className='rounded-md bg-green-500 px-4 py-2.5 ' onClick={() => {
-                call.join();
-                setIsSetupComplete(true);
+            <Button className='rounded-md bg-green-500 px-4 py-2.5 ' disabled={isJoining} onClick={async () => {
+                try {
+                    setIsJoining(true);
+                    await call.join();
+                    setIsSetupComplete(true);
+                } catch (error) {
+                    console.error(error);
+                    toast('Could not join the meeting. Please try again.');
+                } finally {
+                    setIsJoining(false);
+                }
             }}>
                 Join Meeting
             </Button>
